@@ -2,5 +2,48 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CurrencyMVVM.MainPage">
-  <Label Text="{Binding MainText}" VerticalOptions="Center" HorizontalOptions="Center" />
+
+  <ContentPage.Padding>
+    <OnPlatform x:TypeArguments="Thickness" iOS="0,20,0,0" />
+  </ContentPage.Padding>
+  
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <ListView Grid.Row="0"
+              ItemsSource="{Binding Banks}"
+              x:Name="BankList"
+              ItemTemplate="{StaticResource BankTemplate}">
+      <ListView.RowHeight>
+        <OnPlatform x:TypeArguments="x:Int32"
+                    iOS="60"
+                    Android="60"
+                    WinPhone="120" />
+      </ListView.RowHeight>
+    </ListView>
+
+    <StackLayout Grid.Row="1" BackgroundColor="Silver">
+      <BoxView Color="Accent" HeightRequest="{Binding BoxViewDelimiterHeight}"></BoxView>
+      <Label HorizontalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold">
+        Сколько долларов Вы хотите поменять?
+      </Label>
+      <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+        <Entry VerticalOptions="CenterAndExpand" HorizontalOptions="End" WidthRequest="{Binding DollarsToExchangeEntryWidth}" TextColor="Black"/>
+        <Button VerticalOptions="Center" HorizontalOptions="Start" Command="{Binding CalcExchangeCommand}" Text="Рассчитать"/>
+      </StackLayout>
+      <ContentView Padding="5,0">
+        <Label HorizontalOptions="Center" FontSize="Small" TextColor="Black">---</Label>
+      </ContentView>
+      <BoxView Color="Accent" HeightRequest="{Binding BoxViewDelimiterHeight}"></BoxView>
+    </StackLayout>
+     
+  </Grid>
+  
 </ContentPage>

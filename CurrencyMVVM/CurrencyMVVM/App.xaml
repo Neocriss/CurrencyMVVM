@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CurrencyMVVM.Data.ViewModel;assembly=CurrencyMVVM.Data"
+             x:Class="CurrencyMVVM.App">
+  
+  <Application.Resources>
+    <ResourceDictionary>
+
+      <vm:ViewModelLocator x:Key="Locator" />
+
+      <DataTemplate x:Key="BankTemplate">
+        <ViewCell>
+          <ViewCell.View>
+            <Frame OutlineColor="Accent" Padding="5">
+              <StackLayout Orientation="Horizontal" Spacing="15">
+                <Label FontSize="Medium" VerticalOptions="Center"
+                       HorizontalOptions="StartAndExpand" Text="{Binding Model.Name}"/>
+                <StackLayout HorizontalOptions="End">
+                  <Label VerticalOptions="CenterAndExpand" Text="... .."/>
+                  <Label VerticalOptions="CenterAndExpand" FontSize="Small" Text="..."/>
+                </StackLayout>
+              </StackLayout>
+            </Frame>
+          </ViewCell.View>
+        </ViewCell>
+      </DataTemplate>
+      
+    </ResourceDictionary>
+  </Application.Resources>
+  
+</Application>

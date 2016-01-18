@@ -2,29 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
 
 namespace CurrencyMVVM
 {
-    public class App : Application
+    public partial class App : Application
     {
         public App()
         {
-            // The root page of your application
-            MainPage = new ContentPage
+            try
             {
-                Content = new StackLayout
-                {
-                    VerticalOptions = LayoutOptions.Center,
-                    Children = {
-                        new Label {
-                            XAlign = TextAlignment.Center,
-                            Text = "Welcome to Xamarin Forms!"
-                        }
-                    }
-                }
-            };
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                string ex_str = ex.Message;
+                throw;
+            }
+
+            // The root page of your application
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()
