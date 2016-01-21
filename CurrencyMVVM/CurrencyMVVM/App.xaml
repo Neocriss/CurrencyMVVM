@@ -2,26 +2,33 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:CurrencyMVVM.Data.ViewModel;assembly=CurrencyMVVM.Data"
+             xmlns:utilities="clr-namespace:CurrencyMVVM.Data.Utilities;assembly=CurrencyMVVM.Data"
              x:Class="CurrencyMVVM.App">
   
   <Application.Resources>
     <ResourceDictionary>
 
       <vm:ViewModelLocator x:Key="Locator" />
+      <utilities:AddingTailConverter x:Key="addingTailConverter" />
+      <utilities:ParenthesesEncloserConverter x:Key="parenthesesEncloserConverter"/>
 
       <DataTemplate x:Key="BankTemplate">
         <ViewCell>
           <ViewCell.View>
-            <Frame OutlineColor="Accent" Padding="5">
-              <StackLayout Orientation="Horizontal" Spacing="15">
-                <Label FontSize="Medium" VerticalOptions="Center"
-                       HorizontalOptions="StartAndExpand" Text="{Binding Model.Name}"/>
-                <StackLayout HorizontalOptions="End">
-                  <Label VerticalOptions="CenterAndExpand" Text="... .."/>
-                  <Label VerticalOptions="CenterAndExpand" FontSize="Small" Text="..."/>
+            <ContentView Padding="5,2">
+              <Frame OutlineColor="Accent" Padding="5">
+                <StackLayout Orientation="Horizontal" Spacing="15">
+                  <Label FontSize="Medium" VerticalOptions="Center"
+                         HorizontalOptions="StartAndExpand" Text="{Binding Name}"/>
+                  <StackLayout HorizontalOptions="End">
+                    <Label VerticalOptions="CenterAndExpand"
+                           Text="{Binding USDtoRUB.Bid, Converter={StaticResource addingTailConverter}, ConverterParameter=' руб./$'}"/>
+                    <Label VerticalOptions="CenterAndExpand" FontSize="Small"
+                           Text="{Binding Tag, Converter={StaticResource parenthesesEncloserConverter}}"/>
+                  </StackLayout>
                 </StackLayout>
-              </StackLayout>
-            </Frame>
+              </Frame>
+            </ContentView>
           </ViewCell.View>
         </ViewCell>
       </DataTemplate>

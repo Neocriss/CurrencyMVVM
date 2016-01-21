@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CurrencyMVVM.Data.Business;
+using CurrencyMVVM.Data.Model;
 using GalaSoft.MvvmLight;
 
 namespace CurrencyMVVM.Data.ViewModel
@@ -11,6 +13,7 @@ namespace CurrencyMVVM.Data.ViewModel
     {
         #region :: ~ Internal objects ~ ::
 
+        private readonly IBankRepository bankRepository;
         private double _boxViewDelimiterHeight = MainViewModel.DeviceResolution / 90;
         private double _dollarsToExchangeEntryWidth = MainViewModel.DeviceResolution * 50 / 72;
 
@@ -20,7 +23,12 @@ namespace CurrencyMVVM.Data.ViewModel
 
         #region :: ~ Constructors ~ ::
 
-
+        public MainViewModel(IBankRepository bankRepository)
+        {
+            this.bankRepository = bankRepository;
+            this.Banks = new SortableObservableBanksCollection(this.bankRepository.FindAll(), bank => bank.USDtoRUB.Bid, true);
+            this.Banks.InitializeData();
+        }
 
         #endregion :: ^ Constructors ^ ::
 
@@ -28,38 +36,32 @@ namespace CurrencyMVVM.Data.ViewModel
 
         #region :: ~ Properties ~ ::
 
-        /// <summary>
-        /// Sets and gets the BoxViewDelimiterHeight property.
-        /// Changes to that property's value raise the PropertyChanged event. 
+        public SortableObservableBanksCollection Banks { get; private set; }
+
+
+        /// <summary>Обозреваемое свойство:
+        /// устанавливает и возвращает значение для BoxViewDelimiterHeight,
+        /// представляющее собой высоту разделителя в платформо-независимых точках;
+        /// изменение этого свойства поднимает событие PropertyChanged
         /// </summary>
         public double BoxViewDelimiterHeight
         {
-            get
-            {
-                return _boxViewDelimiterHeight;
-            }
-            set
-            {
-                Set(() => BoxViewDelimiterHeight, ref _boxViewDelimiterHeight, value);
-            }
+            get { return _boxViewDelimiterHeight; }
+            set { Set(() => BoxViewDelimiterHeight, ref _boxViewDelimiterHeight, value); }
         }
 
 
 
-        /// <summary>
-        /// Sets and gets the DollarsToExchangeEntryWidth property.
-        /// Changes to that property's value raise the PropertyChanged event. 
+        /// <summary>Обозреваемое свойство:
+        /// устанавливает и возвращает значение для DollarsToExchangeEntryWidth,
+        /// представляющее собой ширину поля ввода количества долларов
+        /// подлежащих обмену (значение представлено в платформо-независимых точках);
+        /// изменение этого свойства поднимает событие PropertyChanged
         /// </summary>
         public double DollarsToExchangeEntryWidth
         {
-            get
-            {
-                return _dollarsToExchangeEntryWidth;
-            }
-            set
-            {
-                Set(() => DollarsToExchangeEntryWidth, ref _dollarsToExchangeEntryWidth, value);
-            }
+            get { return _dollarsToExchangeEntryWidth; }
+            set { Set(() => DollarsToExchangeEntryWidth, ref _dollarsToExchangeEntryWidth, value); }
         }
 
         #endregion :: ^ Properties ^ ::

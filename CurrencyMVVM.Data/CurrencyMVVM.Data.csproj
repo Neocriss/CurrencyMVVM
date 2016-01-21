@@ -35,9 +35,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Business\DummyBankRepository.cs" />
+    <Compile Include="Business\DummyFinancialInfoProvider.cs" />
+    <Compile Include="Business\IBankRepository.cs" />
     <Compile Include="Model\Bank.cs" />
+    <Compile Include="Model\CurrencyPair.cs" />
+    <Compile Include="Business\IFinancialInfoProvider.cs" />
+    <Compile Include="Model\SortableObservableBanksCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\CurrencyAppViewModel.cs" />
+    <Compile Include="Utilities\AddingTailConverter.cs" />
+    <Compile Include="Utilities\ParenthesesEncloserConverter.cs" />
+    <Compile Include="ViewModel\CurrencyAppViewModelBase.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
   </ItemGroup>

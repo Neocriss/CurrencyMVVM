@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using CurrencyMVVM.Data.Business;
 using CurrencyMVVM.Data.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
@@ -24,8 +25,8 @@ namespace CurrencyMVVM.Data.ViewModel
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            //SimpleIoc.Default.Register<IMyService, MyService>();
-
+            SimpleIoc.Default.Register<IFinancialInfoProvider, DummyFinancialInfoProvider>();
+            SimpleIoc.Default.Register<IBankRepository, DummyBankRepository>();
             SimpleIoc.Default.Register<MainViewModel>();
         }
 
