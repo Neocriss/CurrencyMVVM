@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:utilities="clr-namespace:CurrencyMVVM.Data.Utilities;assembly=CurrencyMVVM.Data"
              x:Class="CurrencyMVVM.MainPage">
 
   <ContentPage.Padding>
@@ -29,19 +30,33 @@
       </ListView.RowHeight>
     </ListView>
 
-    <StackLayout Grid.Row="1" BackgroundColor="Silver">
+    <StackLayout Grid.Row="1" BackgroundColor="Silver" IsVisible="{Binding Banks.IsSorted}"
+                 Opacity="{Binding Banks.IsSorted, Converter={StaticResource boolenToDoubleConverter}}">
+      
       <BoxView Color="Accent" HeightRequest="{Binding BoxViewDelimiterHeight}"></BoxView>
+      
       <Label HorizontalOptions="Center" TextColor="Black" FontSize="Small" FontAttributes="Bold">
         Сколько долларов Вы хотите поменять?
       </Label>
+      
       <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-        <Entry VerticalOptions="CenterAndExpand" HorizontalOptions="End" WidthRequest="{Binding DollarsToExchangeEntryWidth}" TextColor="Black"/>
-        <Button VerticalOptions="Center" HorizontalOptions="Start" Command="{Binding CalcExchangeCommand}" Text="Рассчитать"/>
+        <Entry VerticalOptions="CenterAndExpand" HorizontalOptions="End" WidthRequest="{Binding DollarsToExchangeEntryWidth}"
+               TextColor="Black" x:Name="entry_ValueToExchange">
+          <Entry.Behaviors>
+            <utilities:NumericValidationBehavior/>
+          </Entry.Behaviors>
+        </Entry>
+        <Button VerticalOptions="Center" HorizontalOptions="Start" Command="{Binding CalcExchangeCommand}"
+                CommandParameter="{Binding Text, Source={x:Reference entry_ValueToExchange}}" Text="Рассчитать"/>
       </StackLayout>
-      <ContentView Padding="5,0">
-        <Label HorizontalOptions="Center" FontSize="Small" TextColor="Black">---</Label>
+      
+      <ContentView Padding="10,0" IsVisible="{Binding IsResultVisible}"
+                   Opacity="{Binding IsResultVisible, Converter={StaticResource boolenToDoubleConverter}}">
+        <Label HorizontalOptions="Center" XAlign="Center" FontSize="Small" TextColor="Black" Text="{Binding ResultString}"/>
       </ContentView>
+      
       <BoxView Color="Accent" HeightRequest="{Binding BoxViewDelimiterHeight}"></BoxView>
+      
     </StackLayout>
      
   </Grid>

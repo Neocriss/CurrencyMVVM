@@ -16,22 +16,6 @@ namespace CurrencyMVVM.Data.Business
 
         //      ---     ---     ---     ---     ---
 
-        #region :: ~ Constructors ~ ::
-
-
-
-        #endregion :: ^ Constructors ^ ::
-
-        //      ---     ---     ---     ---     ---
-
-        #region :: ~ Properties ~ ::
-
-
-
-        #endregion :: ^ Properties ^ ::
-
-        //      ---     ---     ---     ---     ---
-
         #region :: ~ Methods ~ ::
 
         public async Task<IEnumerable<CurrencyPair>> GetActualCurrencyPairsAsync(string[] names)
@@ -47,13 +31,13 @@ namespace CurrencyMVVM.Data.Business
                 {
                     if (name.Contains("EUR"))
                     {
-                        minValue = 77;
-                        maxValue = 83;
+                        minValue = 86;
+                        maxValue = 92;
                     }
                     else
                     {
-                        minValue = 67;
-                        maxValue = 73;
+                        minValue = 77;
+                        maxValue = 83;
                     }
 
                     // симулируем спред (т.е. разницу между bid и ask)

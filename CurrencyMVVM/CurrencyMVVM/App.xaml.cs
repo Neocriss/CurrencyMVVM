@@ -14,15 +14,7 @@ namespace CurrencyMVVM
     {
         public App()
         {
-            try
-            {
-                InitializeComponent();
-            }
-            catch (Exception ex)
-            {
-                string ex_str = ex.Message;
-                throw;
-            }
+            InitializeComponent();
 
             // The root page of your application
             MainPage = new MainPage();

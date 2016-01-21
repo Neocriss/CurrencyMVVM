@@ -44,8 +44,7 @@ namespace CurrencyMVVM.Data.Model
         #region :: ~ Properties ~ ::
 
         /// <summary>Обозреваемое свойство:
-        /// устанавливает и возвращает значение для Name,
-        /// представляющее собой ;
+        /// устанавливает и возвращает значение для Name, представляющее собой название банка;
         /// изменение этого свойства поднимает событие PropertyChanged
         /// </summary>
         public string Name
@@ -79,6 +78,7 @@ namespace CurrencyMVVM.Data.Model
         }
 
 
+
         /// <summary>Обозреваемое свойство:
         /// устанавливает и возвращает значение для Tag, представляющее собой
         /// любые данные о данном банке, которые следует закрепить за ним;
@@ -91,9 +91,10 @@ namespace CurrencyMVVM.Data.Model
         }
 
 
+
         /// <summary>Обозреваемое свойство:
         /// устанавливает и возвращает значение для IsDataInitialized,
-        /// представляющее собой флаг показывающий, что все данные банка инициализированы
+        /// представляющее собой флаг показывающий, что все данные банка инициализированы;
         /// изменение этого свойства поднимает событие PropertyChanged 
         /// </summary>
         public bool IsDataInitialized
@@ -138,6 +139,7 @@ namespace CurrencyMVVM.Data.Model
             this.IsDataInitialized = true;
             this.OnDataRefreshed();
         }
+
 
 
         public override string ToString() { return this.Name; }

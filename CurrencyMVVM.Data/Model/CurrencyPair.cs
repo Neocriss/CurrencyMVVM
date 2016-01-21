@@ -27,6 +27,7 @@ namespace CurrencyMVVM.Data.Model
         }
 
 
+
         public CurrencyPair(string name, decimal bid, decimal ask) : this(name)
         {
             if (bid < 0)
@@ -56,6 +57,7 @@ namespace CurrencyMVVM.Data.Model
         }
 
 
+
         /// <summary>Обозреваемое свойство:
         /// устанавливает и возвращает значение для Bid,
         /// представляющее собой цену за которую банк готов купить валюту;
@@ -66,6 +68,7 @@ namespace CurrencyMVVM.Data.Model
             get { return this._bid; }
             set { Set(() => Bid, ref this._bid, value); }
         }
+
 
 
         /// <summary>Обозреваемое свойство:
@@ -90,6 +93,7 @@ namespace CurrencyMVVM.Data.Model
             this.Bid = currencyPair.Bid;
             this.Ask = currencyPair.Ask;
         }
+
 
 
         public override string ToString() { return this.Name; }

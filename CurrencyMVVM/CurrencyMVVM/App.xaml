@@ -11,6 +11,7 @@
       <vm:ViewModelLocator x:Key="Locator" />
       <utilities:AddingTailConverter x:Key="addingTailConverter" />
       <utilities:ParenthesesEncloserConverter x:Key="parenthesesEncloserConverter"/>
+      <utilities:BoolenToDoubleConverter x:Key="boolenToDoubleConverter"/>
 
       <DataTemplate x:Key="BankTemplate">
         <ViewCell>

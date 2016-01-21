@@ -11,14 +11,6 @@ namespace CurrencyMVVM
 {
     public partial class MainPage : ContentPage
     {
-        #region :: ~ Internal objects ~ ::
-
-
-
-        #endregion :: ^ Internal objects ^ ::
-
-        //      ---     ---     ---     ---     ---
-
         #region :: ~ Constructors ~ ::
 
         public MainPage()

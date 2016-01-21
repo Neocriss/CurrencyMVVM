@@ -11,14 +11,6 @@ namespace CurrencyMVVM.Data.ViewModel
 {
     public class ViewModelLocator
     {
-        #region :: ~ Internal objects ~ ::
-
-
-
-        #endregion :: ^ Internal objects ^ ::
-
-        //      ---     ---     ---     ---     ---
-
         #region :: ~ Constructors ~ ::
 
         static ViewModelLocator()

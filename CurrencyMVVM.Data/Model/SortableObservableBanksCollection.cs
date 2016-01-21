@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 
 
@@ -15,8 +16,10 @@ namespace CurrencyMVVM.Data.Model
     {
         #region :: ~ Internal objects ~ ::
 
+        public const string IsSortedPropertyName = "IsSorted";
+
         private Func<Bank, decimal> keySelector = null;
-        private bool isSorted = false;
+        private bool _isSorted = false;
 
         #endregion :: ^ Internal objects ^ ::
 
@@ -54,7 +57,7 @@ namespace CurrencyMVVM.Data.Model
         //      ---     ---     ---     ---     ---
 
         #region :: ~ Properties ~ ::
-
+        
         public bool IsDescendingSortOrder { get; private set; }
 
 
@@ -68,6 +71,25 @@ namespace CurrencyMVVM.Data.Model
             {
                 int initializedBanksCount = this.Count(bank => bank.IsDataInitialized);
                 return initializedBanksCount == this.Count;
+            }
+        }
+
+
+        /// <summary>Обозреваемое свойство:
+        /// устанавливает и возвращает значение для IsSorted,
+        /// представляющее собой флаг показывающий отсортированна ли коллекция или нет;
+        /// изменение этого свойства поднимает событие PropertyChanged
+        /// </summary>
+        public bool IsSorted
+        {
+            get { return _isSorted; }
+
+            private set
+            {
+                if (this._isSorted == value) return;
+
+                this._isSorted = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(IsSortedPropertyName));
             }
         }
 
@@ -109,7 +131,7 @@ namespace CurrencyMVVM.Data.Model
                 this[i].Tag = this.keySelector(this[i]) - this.keySelector(this[0]);
             }
 
-            this.isSorted = true;
+            this.IsSorted = true;
         }
 
 
@@ -118,7 +140,7 @@ namespace CurrencyMVVM.Data.Model
             item.DataRefreshed += Bank_DataRefreshed;
 
             base.InsertItem(index, item);
-            this.isSorted = false;
+            this.IsSorted = false;
         }
 
 
@@ -130,7 +152,7 @@ namespace CurrencyMVVM.Data.Model
                 item.DataRefreshed += Bank_DataRefreshed;
 
                 base.SetItem(index, item);
-                this.isSorted = false;
+                this.IsSorted = false;
             }
         }
 
@@ -161,7 +183,7 @@ namespace CurrencyMVVM.Data.Model
 
         private void Bank_DataRefreshed(object sender, EventArgs e)
         {
-            if (!this.isSorted && this.IsDataInitialized) this.SortThenUpdate();
+            if (!this.IsSorted && this.IsDataInitialized) this.SortThenUpdate();
         }
 
         #endregion :: ^ Event handlers ^ ::

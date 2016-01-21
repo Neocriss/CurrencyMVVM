@@ -8,7 +8,17 @@ namespace CurrencyMVVM.Data.Utilities
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return $"{value} {parameter}";
+            if (value is double)
+            {
+                double dValue = (double) value;
+                return $"{dValue:F2} {parameter}";
+            }
+            else if (value is decimal)
+            {
+                decimal mValue = (decimal) value;
+                return $"{mValue:F2} {parameter}";
+            }
+            else return $"{value} {parameter}";
         }
 
 
