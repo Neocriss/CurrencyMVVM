@@ -20,8 +20,13 @@ namespace CurrencyMVVM.Data.Model
 
         public CurrencyPair(string name)
         {
-            if (string.IsNullOrWhiteSpace(name) || name.Length != 7)
-                throw new ArgumentNullException(nameof(name), "CurrencyPair must have a valid name like \"USD/RUB\"");
+            const string warning = "CurrencyPair must have a valid name like \"USD/RUB\"";
+
+            if (name == null)
+                throw new ArgumentNullException(nameof(name), warning);
+            
+            if (name.Length != 7 || string.IsNullOrWhiteSpace(name) || name[3] != '/')
+                throw new ArgumentException(warning, nameof(name));
 
             this._name = name.ToUpper();
         }
@@ -90,6 +95,11 @@ namespace CurrencyMVVM.Data.Model
 
         public void UpdateValuesBy(CurrencyPair currencyPair)
         {
+            if (currencyPair == null) return;
+            
+            if (currencyPair.Name != this.Name)
+                throw new ArgumentException("CurrencyPair names does not correspond to each other");
+
             this.Bid = currencyPair.Bid;
             this.Ask = currencyPair.Ask;
         }
