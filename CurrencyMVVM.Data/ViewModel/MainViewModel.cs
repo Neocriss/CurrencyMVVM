@@ -19,6 +19,7 @@ namespace CurrencyMVVM.Data.ViewModel
         private readonly IBankRepository bankRepository;
         private bool _isResultVisible = false;
         private string _resultString = null;
+        private LayoutOptions _resultHorizontalOptions = LayoutOptions.Center;
         private double _boxViewDelimiterHeight = MainViewModel.DeviceResolution / 90;
         private double _dollarsToExchangeEntryWidth = MainViewModel.DeviceResolution * 50 / 72;
 
@@ -55,7 +56,17 @@ namespace CurrencyMVVM.Data.ViewModel
         public bool IsResultVisible
         {
             get { return this._isResultVisible; }
-            set { Set(() => IsResultVisible, ref this._isResultVisible, value); }
+            set
+            {
+                if (Set(() => IsResultVisible, ref this._isResultVisible, value) && value == true)
+                {
+                    // обходим баг c IsVisible в Xamarin.Forms (см. ReadMe.txt)
+                    Task.Delay(300).ContinueWith(
+                        _ => Device.BeginInvokeOnMainThread(
+                            () => this.ResultHorizontalOptions = LayoutOptions.Fill)
+                        );
+                }
+            }
         }
 
 
@@ -69,6 +80,21 @@ namespace CurrencyMVVM.Data.ViewModel
         {
             get { return this._resultString; }
             set { Set(() => ResultString, ref this._resultString, value); }
+        }
+
+
+
+        /// <summary>Обозреваемое свойство:
+        /// устанавливает и возвращает значение для ResultHorizontalOptions,
+        /// представляющее собой настройку расположения по горизонтали элемента ContentView с Label'ом
+        /// в котором выводится результат вычислений; и нужно оно здесь для обхода бага Xamarin.Forms
+        /// связанного с некорректной работой свойства IsVisible в iOS (см. ReadMe.txt);
+        /// изменение этого свойства поднимает событие PropertyChanged 
+        /// </summary>
+        public LayoutOptions ResultHorizontalOptions
+        {
+            get { return this._resultHorizontalOptions; }
+            set { Set(() => ResultHorizontalOptions, ref this._resultHorizontalOptions, value); }
         }
 
 
@@ -114,19 +140,20 @@ namespace CurrencyMVVM.Data.ViewModel
 
         private void CalcExchange(string valueToExchangeString)
         {
-            if (this.Banks.Count < 1) return;
+            if (this.Banks.Count < 1 || string.IsNullOrEmpty(valueToExchangeString)) return;
 
-            decimal valueToExchange = 0.0m;
+            this.IsResultVisible = true;
 
-            if (decimal.TryParse(valueToExchangeString, out valueToExchange) && valueToExchange > 0)
+            ulong valueToExchange = 0;
+
+            if (ulong.TryParse(valueToExchangeString, out valueToExchange) && valueToExchange > 0)
             {
-                this.IsResultVisible = true;
                 decimal result = valueToExchange * this.Banks[0].USDtoRUB.Bid;
                 this.ResultString = $"Максимальная сумма {result:F2} рублей";
             }
             else
             {
-                this.ResultString = "Введите положительное число и попробуйте снова...";
+                this.ResultString = "Введите целое положительное число и попробуйте снова...";
             }
         }
 

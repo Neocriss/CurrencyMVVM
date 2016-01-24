@@ -15,11 +15,17 @@ namespace CurrencyMVVM.Data.Tests.Model
     public class BankTests
     {
         private const string BANK_NAME = "ВТБ 24";
+
         private const decimal USD_BID = 77m, USD_ASK = 79m;
         private const decimal EUR_BID = 87m, EUR_ASK = 89m;
+
         private const string USD_RUB_NAME = "USD/RUB";
         private const string EUR_RUB_NAME = "EUR/RUB";
+
         private readonly IFinancialInfoProvider prePreparedFakeProvider = Substitute.For<IFinancialInfoProvider>();
+
+
+        //      ---     ---     ---     ---     ---
 
 
         [OneTimeSetUp]
@@ -36,6 +42,9 @@ namespace CurrencyMVVM.Data.Tests.Model
         }
 
 
+        //      ---     ---     ---     ---     ---
+
+        
         [Test]
         public void Bank_PassingNullNameArgument_ShouldThrowArgumentNullException()
         {
@@ -45,11 +54,13 @@ namespace CurrencyMVVM.Data.Tests.Model
         }
 
 
+
         [Test]
         public void Bank_PassingNullProviderArgument_ShouldThrowArgumentNullException()
         {
             Assert.Throws(typeof(ArgumentNullException), () => new Bank(BankTests.BANK_NAME, null));
         }
+
 
 
         [Test]
@@ -62,6 +73,7 @@ namespace CurrencyMVVM.Data.Tests.Model
             Assert.That(bank.USDtoRUB.Name, Is.EqualTo(BankTests.USD_RUB_NAME));
             Assert.That(bank.EURtoRUB.Name, Is.EqualTo(BankTests.EUR_RUB_NAME));
         }
+
 
 
         [Test]
@@ -81,6 +93,7 @@ namespace CurrencyMVVM.Data.Tests.Model
         }
 
 
+
         [Test]
         public void RefreshData_Execution_ShouldRaiseEvent()
         {
@@ -94,6 +107,34 @@ namespace CurrencyMVVM.Data.Tests.Model
 
 
             Assert.That(eventHasRaised, Is.True);
+        }
+
+
+
+        [Test]
+        public void IsDataInitialized_CreateNewBankInstance_ShouldReturnsFalse()
+        {
+            var fakeProvider = Substitute.For<IFinancialInfoProvider>();
+
+
+            Bank bank = new Bank(BankTests.BANK_NAME, fakeProvider);
+
+
+            Assert.That(bank.IsDataInitialized, Is.False);
+        }
+
+
+
+        [Test]
+        public void IsDataInitialized_RefreshDataExecution_ShouldReturnsTrue()
+        {
+            Bank bank = new Bank(BankTests.BANK_NAME, this.prePreparedFakeProvider);
+
+
+            bank.RefreshData();
+
+            
+            Assert.That(bank.IsDataInitialized, Is.True);
         }
     }
 }

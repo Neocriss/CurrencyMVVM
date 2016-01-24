@@ -45,7 +45,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\AddingTailConverter.cs" />
     <Compile Include="Utilities\BoolenToDoubleConverter.cs" />
-    <Compile Include="Utilities\NumericValidationBehavior.cs" />
+    <Compile Include="Utilities\ULongNumericValidationBehavior.cs" />
     <Compile Include="Utilities\ParenthesesEncloserConverter.cs" />
     <Compile Include="ViewModel\CurrencyAppViewModelBase.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

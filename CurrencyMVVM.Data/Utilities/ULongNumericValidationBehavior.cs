@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace CurrencyMVVM.Data.Utilities
 {
-    public class NumericValidationBehavior : Behavior<Entry>
+    public class ULongNumericValidationBehavior : Behavior<Entry>
     {
         #region :: ~ Internal objects ~ ::
 
@@ -43,8 +43,8 @@ namespace CurrencyMVVM.Data.Utilities
 
         private void OnEntryTextChanged(object sender, TextChangedEventArgs args)
         {
-            decimal result;
-            bool isValid = Decimal.TryParse(args.NewTextValue, out result);
+            ulong result;
+            bool isValid = ulong.TryParse(args.NewTextValue, out result);
             ((Entry)sender).TextColor = isValid ? this.defaultTextColor : Color.Red;
         }
 

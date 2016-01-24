@@ -30,6 +30,7 @@
       </ListView.RowHeight>
     </ListView>
 
+    <!-- здесь Opacity используется для обхода бага с IsVisible в Xamarin.Forms (см. ReadMe.txt) -->
     <StackLayout Grid.Row="1" BackgroundColor="Silver" IsVisible="{Binding Banks.IsSorted}"
                  Opacity="{Binding Banks.IsSorted, Converter={StaticResource boolenToDoubleConverter}}">
       
@@ -43,14 +44,15 @@
         <Entry VerticalOptions="CenterAndExpand" HorizontalOptions="End" WidthRequest="{Binding DollarsToExchangeEntryWidth}"
                TextColor="Black" x:Name="entry_ValueToExchange">
           <Entry.Behaviors>
-            <utilities:NumericValidationBehavior/>
+            <utilities:ULongNumericValidationBehavior/>
           </Entry.Behaviors>
         </Entry>
         <Button VerticalOptions="Center" HorizontalOptions="Start" Command="{Binding CalcExchangeCommand}"
                 CommandParameter="{Binding Text, Source={x:Reference entry_ValueToExchange}}" Text="Рассчитать"/>
       </StackLayout>
       
-      <ContentView Padding="10,0" IsVisible="{Binding IsResultVisible}"
+      <!-- здесь HorizontalOptions и Opacity используются для обхода бага с IsVisible в Xamarin.Forms (см. ReadMe.txt) -->
+      <ContentView Padding="10,0" IsVisible="{Binding IsResultVisible}" HorizontalOptions="{Binding ResultHorizontalOptions}"
                    Opacity="{Binding IsResultVisible, Converter={StaticResource boolenToDoubleConverter}}">
         <Label HorizontalOptions="Center" XAlign="Center" FontSize="Small" TextColor="Black" Text="{Binding ResultString}"/>
       </ContentView>

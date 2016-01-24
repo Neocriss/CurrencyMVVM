@@ -21,6 +21,11 @@ namespace CurrencyMVVM.Data.Model
         private Func<Bank, decimal> keySelector = null;
         private bool _isSorted = false;
 
+        // нельзя делать сортировку элементов коллекции во время перечисление этих элементов;
+        // данный флаг позволяет избежать начала сортировки до того как будет закончено
+        // перечисление элементов начатое в методе InitializeData()
+        private bool isInitializingOrSorting = false;
+
         #endregion :: ^ Internal objects ^ ::
 
         //      ---     ---     ---     ---     ---
@@ -101,12 +106,17 @@ namespace CurrencyMVVM.Data.Model
 
         public void InitializeData()
         {
-            if (this.IsDataInitialized) return;
+            if (this.isInitializingOrSorting || this.IsDataInitialized) return;
+
+            this.isInitializingOrSorting = true;
 
             foreach (Bank bank in this)
-            {
                 bank.RefreshData();
-            }
+
+            this.isInitializingOrSorting = false;
+
+            if (!this.isInitializingOrSorting && !this.IsSorted && this.IsDataInitialized)
+                this.SortThenUpdate();
         }
 
         #endregion :: ^ Methods ^ ::
@@ -117,6 +127,8 @@ namespace CurrencyMVVM.Data.Model
 
         private void SortThenUpdate()
         {
+            this.isInitializingOrSorting = true;
+
             List<Bank> sortedBanks = null;
 
             if (this.IsDescendingSortOrder)
@@ -125,6 +137,7 @@ namespace CurrencyMVVM.Data.Model
                 sortedBanks = this.OrderBy(this.keySelector).ToList();
 
             base.ClearItems();
+
             for (int i = 0; i < sortedBanks.Count; i++)
             { 
                 base.InsertItem(i, sortedBanks[i]);
@@ -132,6 +145,8 @@ namespace CurrencyMVVM.Data.Model
             }
 
             this.IsSorted = true;
+
+            this.isInitializingOrSorting = false;
         }
 
 
@@ -183,7 +198,8 @@ namespace CurrencyMVVM.Data.Model
 
         private void Bank_DataRefreshed(object sender, EventArgs e)
         {
-            if (!this.IsSorted && this.IsDataInitialized) this.SortThenUpdate();
+            if (!this.isInitializingOrSorting && !this.IsSorted && this.IsDataInitialized)
+                this.SortThenUpdate();
         }
 
         #endregion :: ^ Event handlers ^ ::
